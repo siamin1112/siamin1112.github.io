@@ -1,0 +1,317 @@
+<!-- 통합 최적화본 (복사해서 그대로 사용) -->
+<!-- 헤더 / 본문 / 푸터만 유지, 불필요 전부 제거 -->
+<!-- 화살표는 GIF img로 교체 지점만 남김 -->
+<!-- 고정 푸터 겹침 방지: JS로 body padding-bottom 동기화 -->
+<!-- 카운트다운: 이전처럼 '초가 더 빨리' 줄어들도록 속도 배수(speed) 적용 -->
+
+
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+
+
+<style>
+  /* 전체: 상단 고정 헤더로 가려지지 않도록 패딩 */
+  body {
+    margin: 0;
+    padding-top: 50px; /* 헤더 높이와 동일 */
+    font-family: "Noto Sans KR",
+                 -apple-system,
+                 BlinkMacSystemFont,
+                 Roboto,
+                 Arial,
+                 sans-serif;
+    background: #ffffff;
+    color: #111;
+    /* 푸터 가림 방지 기본 여백 (실제 높이는 JS로 동기화) */
+    padding-bottom: 45px; /* 초기값(로딩 전 대비) [web:11][web:5] */
+  } /* [web:11][web:5] */
+
+
+  /* 1) 고정 헤더 */
+  #fixed-header {
+    margin-top: 0px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 50px; /* 조건 동일 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #e60023;
+    color: #fff;
+    font-weight: 700;
+    font-size: 16px;
+    z-index: 9999;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    white-space: nowrap; /* 한 줄 유지 (줄바꿈 방지) */
+  }
+
+
+  #fixed-header .badge {
+    margin-left: 10px;
+    background: #111;
+    color: #fff;
+    border-radius: 20px;
+    padding: 6px 13px;   /* 좌우 패딩 ↑ 길이 확장 */
+    font-size: 13px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px; /* 수평 정렬 안정화 */
+  }
+
+
+  /* 16 숫자만 깜빡임 */
+  .blink {
+    animation: blink 0.6s step-start infinite;
+  }
+  @keyframes blink {
+    50% { opacity: 0; } /* 반주기 숨김 */
+  }
+
+
+  /* 접근성: 모션 줄임 설정 시 애니메이션 비활성화 */
+  @media (prefers-reduced-motion: reduce) {
+    .blink { animation: none; }
+  }
+
+
+  /* 2) 컨테이너: 모바일 735px에 딱 맞춤 */
+  .container {
+    max-width: 735px;
+    width: 100%;
+    margin: 0 auto;
+    box-sizing: border-box;
+  }
+
+
+  /* 3) 통 이미지: 가로 735px 기준/반응형 */
+  .hero-image {
+    width: 100%;
+    max-width: 735px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+  }
+
+
+  /* 4) 아래 화살표(GIF) — 이미지로 대체 (PNG/GIF 넣을 자리만 유지) */
+  .arrow {
+    text-align: center;
+    margin: 20px 0 0px;
+    height: 96px; /* GIF 고정 박스 높이 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .arrow img {
+    width: 70px;
+    height: 96px;
+    display: block;
+  }
+
+
+  /* 5) 외부 폼: 기본 스타일 */
+  .form-wrap {
+    max-width: 735px;
+  }
+
+
+  /* 6) 고정 푸터 — 55px, 중앙 정렬, 16px, 타이머 박스 */
+  #fixed-footer {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 55px; /* 요청값 */
+    background: #0f0f10;
+    color: #fff;
+    /* border-top 제거: 불필요 보더 삭제 */
+    display: flex;
+    align-items: center;
+    justify-content: center; /* 중앙 정렬 */
+    z-index: 9999;
+    box-shadow: 0 -6px 18px rgba(0,0,0,0.18);
+    font-size: 16px; /* 요청값 */
+  }
+  #fixed-footer .inner {
+    width: 100%;
+    max-width: 735px;
+    display: flex;
+    align-items: center;
+    justify-content: center; /* 중앙 정렬 */
+    gap: 10px;
+    padding: 0 12px;
+  }
+  .foot-msg {
+    font-weight: 700;
+    color: #fff;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  /* 텍스트 안의 타이머 — 흰 배경, 둥근 모서리, 작고 선명 */
+  .tseg {
+    display: inline-block;
+    min-width: 28px;
+    padding: 4px 3px;
+    margin: 0 2px;
+    background: #ffffff;     /* 흰색 배경 */
+    color: #c40022;
+    border-radius: 6px;
+    border: 1px solid rgba(17,17,17,0.1);
+    font-variant-numeric: tabular-nums;
+    font-weight: 900;
+    line-height: 1;
+    text-align: center;
+  }
+  .tsep {
+    display: inline-block;
+    width: 8px;
+    text-align: center;
+    opacity: 0.9;
+    font-weight: 800;
+  }
+
+
+  /* 작은 기기 보완 */
+  @media (max-width: 360px) {
+    #fixed-header { font-size: 15px; }
+    #fixed-header .badge { font-size: 12px; }
+    .arrow { height: 88px; }
+    .arrow img { width: 70px; height: 88px; }
+    #fixed-footer { height: 45px; font-size: 16px; }
+  }
+</style>
+</head>
+<body>
+
+
+  <!-- 1) 고정 헤더 -->
+  <div id="fixed-header">
+    합격 시 수강료 100% 환급!
+    <span class="badge">
+      선착순 : <span class="blink">16</span> / 20
+    </span>
+  </div>
+
+
+  <!-- 2) 본문 -->
+  <div class="container">
+    <!-- 3) 통 이미지 -->
+    <img class="hero-image"
+         src="https://blog.kakaocdn.net/dna/cSCVOa/dJMcagKC2GA/AAAAAAAAAAAAAAAAAAAAAHnWoIU_HVeKPiEa8wa__cabDHwxBI7TAiAUML_lroxW/img.png?credential=yqXZFxpELC7KVnFOS48ylbz2pIh7yKj8&expires=1764514799&allow_ip=&allow_referer=&signature=r%2Fktujk10xwaPiYnBQAKy466RUw%3D"
+         alt="랜딩 메인 이미지" />
+
+
+    <!-- 4) 화살표 GIF (PNG/GIF 교체 지점) -->
+    <div class="arrow" aria-hidden="true">
+      <!-- 아래 src에 GIF 경로 교체 -->
+      <img src="https://blog.kakaocdn.net/dna/cr77FX/dJMb99LvexN/AAAAAAAAAAAAAAAAAAAAAH0jbLXtr-KI2v6FaKE2S1WsRZ6-8oP7AnqkAv9TOu9d3hpGd0MvKCllqI3Eqe2KaUJoFWzN6w12ugZAp20s5l_jTBUfG9dfuT4iiHh1QyNm/img.gif?credential=yqXZFxpELC7KVnFOS48ylbz2pIh7yKj8&expires=1764514799&allow_ip=&allow_referer=&signature=IuIJ9fH9DzKfUZYPWyLD8L3nWw8%3D" alt="" />
+      <img src="https://blog.kakaocdn.net/dna/cr77FX/dJMb99LvexN/AAAAAAAAAAAAAAAAAAAAAH0jbLXtr-KI2v6FaKE2S1WsRZ6-8oP7AnqkAv9TOu9d3hpGd0MvKCllqI3Eqe2KaUJoFWzN6w12ugZAp20s5l_jTBUfG9dfuT4iiHh1QyNm/img.gif?credential=yqXZFxpELC7KVnFOS48ylbz2pIh7yKj8&expires=1764514799&allow_ip=&allow_referer=&signature=IuIJ9fH9DzKfUZYPWyLD8L3nWw8%3D" alt="" />
+      <img src="https://blog.kakaocdn.net/dna/cr77FX/dJMb99LvexN/AAAAAAAAAAAAAAAAAAAAAH0jbLXtr-KI2v6FaKE2S1WsRZ6-8oP7AnqkAv9TOu9d3hpGd0MvKCllqI3Eqe2KaUJoFWzN6w12ugZAp20s5l_jTBUfG9dfuT4iiHh1QyNm/img.gif?credential=yqXZFxpELC7KVnFOS48ylbz2pIh7yKj8&expires=1764514799&allow_ip=&allow_referer=&signature=IuIJ9fH9DzKfUZYPWyLD8L3nWw8%3D" alt="" />
+    </div>
+
+
+    <!-- 5) 외부 DB 폼 (마켓클럽 입력폼 삽입) -->
+    <div class="form-wrap">
+      <iframe src='https://marketclub.cafe24.com/form_make/form.php?type=set&pt=siaj1112&it=740&rgb1=&rgb2=&rgb3=&rgb4=&rgb5=%231562CF&rgb6=&btn_name=%BC%B1%C2%F8%BC%F8+%C7%FD%C5%C3+%B9%DE%B1%E2&tracking_gubun=fasebook&tracking_code=686199457579048&tracking_label='
+              width="100%"
+              height="650px"
+              frameborder="0">
+      </iframe>
+    </div>
+  </div>
+
+
+  <!-- 6) 고정 푸터 + 텍스트 내 타이머(단일) -->
+  <div id="fixed-footer" role="contentinfo" aria-label="이벤트 카운트다운">
+    <div class="inner">
+      <span class="foot-msg">
+        이벤트 종료까지
+        <span class="tseg" id="hh">03</span>
+        <span class="tsep">:</span>
+        <span class="tseg" id="mm">00</span>
+        <span class="tsep">:</span>
+        <span class="tseg" id="ss">00</span>
+      </span>
+    </div>
+  </div>
+
+
+<script>
+  /* ===============================
+     1) 푸터 겹침 방지: padding-bottom 동기화
+     - 고정 푸터 높이를 측정해 body 하단 여백에 반영
+     =============================== */
+  (function syncFooterSpace(){
+    function apply() {
+      var f = document.getElementById('fixed-footer');
+      if(!f) return;
+      var h = Math.ceil(f.getBoundingClientRect().height || 0);
+      document.body.style.paddingBottom = h + 'px';
+    }
+    window.addEventListener('load', apply);
+    window.addEventListener('resize', apply);
+    // 폰트 로딩/이미지 변경 등으로 레이아웃 변동 시 보정
+    document.addEventListener('visibilitychange', function(){
+      if(document.visibilityState === 'visible') apply();
+    });
+  })();
+
+
+  /* ===============================
+     2) 카운트다운: '빠른 초 감소' 유지
+     - 표시 시간은 3시간
+     - 실제 흐름은 speed배로 빨라짐 (요청: 이전처럼 더 빠른 초 감소)
+     - 정확도: Date.now() 기반, rAF 구동 [web:32][web:36][web:31]
+     =============================== */
+  (function(){
+    var H = document.getElementById('hh');
+    var M = document.getElementById('mm');
+    var S = document.getElementById('ss');
+    if(!H || !M || !S) return;
+
+
+    var displayDurationMs = 3 * 60 * 60 * 1000; /* 3시간 표시 */
+    var speed = 4; /* '초가 더 빨리' 줄도록 가속 배수 (필요 시 4→8 등으로 증가) */
+    var virtualTotal = displayDurationMs / speed; /* 실제 경과 기준치 */
+    var t0 = Date.now();
+
+
+    function pad(n){ return (n < 10 ? '0' : '') + n; }
+
+
+    function render(msLeft){
+      var sec = Math.max(0, Math.floor(msLeft / 1000));
+      var h = Math.floor(sec / 3600);
+      var m = Math.floor((sec % 3600) / 60);
+      var s = sec % 60;
+      H.textContent = pad(h);
+      M.textContent = pad(m);
+      S.textContent = pad(s);
+    }
+
+
+    function tick(){
+      var elapsed = Date.now() - t0;          /* 실제 경과 */
+      var leftVirtual = Math.max(0, virtualTotal - elapsed); /* 가상 잔여 */
+      var leftDisplay = leftVirtual * speed;  /* 표시상의 잔여(빠르게 감소) */
+      render(leftDisplay);
+      if(leftVirtual > 0) requestAnimationFrame(tick); else render(0);
+    }
+
+
+    /* 초기 표시 */
+    render(displayDurationMs);
+    requestAnimationFrame(tick);
+  })();
+</script>
+
+
+</body>
+</html>
