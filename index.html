@@ -1,16 +1,8 @@
-<!-- 통합 최적화본 (복사해서 그대로 사용) -->
-<!-- 헤더 / 본문 / 푸터만 유지, 불필요 전부 제거 -->
-<!-- 화살표는 GIF img로 교체 지점만 남김 -->
-<!-- 고정 푸터 겹침 방지: JS로 body padding-bottom 동기화 -->
-<!-- 카운트다운: 이전처럼 '초가 더 빨리' 줄어들도록 속도 배수(speed) 적용 -->
-
-
 <!doctype html>
 <html lang="ko">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-
 
 <style>
   /* 전체: 상단 고정 헤더로 가려지지 않도록 패딩 */
@@ -25,10 +17,8 @@
                  sans-serif;
     background: #ffffff;
     color: #111;
-    /* 푸터 가림 방지 기본 여백 (실제 높이는 JS로 동기화) */
-    padding-bottom: 45px; /* 초기값(로딩 전 대비) [web:11][web:5] */
-  } /* [web:11][web:5] */
-
+    padding-bottom: 45px; /* 초기값(로딩 전 대비) */
+  }
 
   /* 1) 고정 헤더 */
   #fixed-header {
@@ -37,47 +27,43 @@
     top: 0;
     left: 0;
     right: 0;
-    height: 50px; /* 조건 동일 */
+    height: 50px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #1562cf;
+    background: #fd0235;
     color: #fff;
     font-weight: 700;
     font-size: 16px;
     z-index: 9999;
     box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-    white-space: nowrap; /* 한 줄 유지 (줄바꿈 방지) */
+    white-space: nowrap;
   }
-
 
   #fixed-header .badge {
     margin-left: 10px;
     background: #111;
     color: #fff;
     border-radius: 20px;
-    padding: 6px 13px;   /* 좌우 패딩 ↑ 길이 확장 */
+    padding: 6px 13px;
     font-size: 13px;
     display: inline-flex;
     align-items: center;
-    gap: 4px; /* 수평 정렬 안정화 */
+    gap: 4px;
   }
-
 
   /* 16 숫자만 깜빡임 */
   .blink {
     animation: blink 0.6s step-start infinite;
   }
   @keyframes blink {
-    50% { opacity: 0; } /* 반주기 숨김 */
+    50% { opacity: 0; }
   }
-
 
   /* 접근성: 모션 줄임 설정 시 애니메이션 비활성화 */
   @media (prefers-reduced-motion: reduce) {
     .blink { animation: none; }
   }
-
 
   /* 2) 컨테이너: 모바일 735px에 딱 맞춤 */
   .container {
@@ -87,9 +73,8 @@
     box-sizing: border-box;
   }
 
-
-  /* 3) 통 이미지: 가로 735px 기준/반응형 */
-  .hero-image {
+  /* 3) 본문 이미지 공통 스타일 */
+  .content-image {
     width: 100%;
     max-width: 735px;
     height: auto;
@@ -97,12 +82,16 @@
     margin: 0 auto;
   }
 
+  /* 본문 2 이미지만 위로 당기기 */
+  .content-image:nth-of-type(2) {
+    margin-top: -35px; /* 숫자 조정해서 원하는 만큼 올리기 */
+  }
 
-  /* 4) 아래 화살표(GIF) — 이미지로 대체 (PNG/GIF 넣을 자리만 유지) */
+  /* 4) 화살표(GIF) */
   .arrow {
     text-align: center;
     margin: 20px 0 0px;
-    height: 96px; /* GIF 고정 박스 높이 */
+    height: 96px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -113,36 +102,34 @@
     display: block;
   }
 
-
-  /* 5) 외부 폼: 기본 스타일 */
+  /* 5) 외부 폼 */
   .form-wrap {
     max-width: 735px;
+    margin: 30px auto;
   }
 
-
-  /* 6) 고정 푸터 — 55px, 중앙 정렬, 16px, 타이머 박스 */
+  /* 6) 고정 푸터 */
   #fixed-footer {
     position: fixed;
     left: 0;
     right: 0;
     bottom: 0;
-    height: 55px; /* 요청값 */
+    height: 55px;
     background: #0f0f10;
     color: #fff;
-    /* border-top 제거: 불필요 보더 삭제 */
     display: flex;
     align-items: center;
-    justify-content: center; /* 중앙 정렬 */
+    justify-content: center;
     z-index: 9999;
     box-shadow: 0 -6px 18px rgba(0,0,0,0.18);
-    font-size: 16px; /* 요청값 */
+    font-size: 16px;
   }
   #fixed-footer .inner {
     width: 100%;
     max-width: 735px;
     display: flex;
     align-items: center;
-    justify-content: center; /* 중앙 정렬 */
+    justify-content: center;
     gap: 10px;
     padding: 0 12px;
   }
@@ -154,13 +141,12 @@
     align-items: center;
     gap: 8px;
   }
-  /* 텍스트 안의 타이머 — 흰 배경, 둥근 모서리, 작고 선명 */
   .tseg {
     display: inline-block;
     min-width: 28px;
     padding: 4px 3px;
     margin: 0 2px;
-    background: #ffffff;     /* 흰색 배경 */
+    background: #ffffff;
     color: #c40022;
     border-radius: 6px;
     border: 1px solid rgba(17,17,17,0.1);
@@ -177,7 +163,6 @@
     font-weight: 800;
   }
 
-
   /* 작은 기기 보완 */
   @media (max-width: 360px) {
     #fixed-header { font-size: 15px; }
@@ -190,45 +175,54 @@
 </head>
 <body>
 
-
   <!-- 1) 고정 헤더 -->
   <div id="fixed-header">
-    [무료] 20만원 상당 비밀자료 제공!
+    탈모 무료 진단 이벤트!
     <span class="badge">
       선착순 : <span class="blink">16</span> / 20
     </span>
   </div>
 
-
   <!-- 2) 본문 -->
   <div class="container">
-    <!-- 3) 통 이미지 -->
-    <img class="hero-image"
-         src="https://blog.kakaocdn.net/dna/ExWk0/dJMcadAnT18/AAAAAAAAAAAAAAAAAAAAANomtVLQnafbJDIrncB83f0PiMp-2U8wr5mXZ9b3U1cK/img.png?credential=yqXZFxpELC7KVnFOS48ylbz2pIh7yKj8&expires=1764514799&allow_ip=&allow_referer=&signature=LcgRKErdoUrtOPl9nj%2BhhVI9Egg%3D"
-         alt="랜딩 메인 이미지" />
+    
+    <!-- ========================================
+         본문 1 이미지 (여기 URL 교체)
+         ======================================== -->
+    <img class="content-image"
+         src="https://blog.kakaocdn.net/dna/djBptb/dJMcabvRno7/AAAAAAAAAAAAAAAAAAAAACfly7xkklYIv2I0u6Srk2lCsa7OY-s0_sM6BA_S_KNf/img.gif?credential=yqXZFxpELC7KVnFOS48ylbz2pIh7yKj8&expires=1764514799&allow_ip=&allow_referer=&signature=%2FMjR0KghE6TXCNHlKuMANRdGVP0%3D"
+         alt="본문 1" />
 
+    <!-- ========================================
+         본문 2 이미지 (여기 URL 교체)
+         ======================================== -->
+    <img class="content-image"
+         src="https://blog.kakaocdn.net/dna/bxxlJ7/dJMcagYeHhl/AAAAAAAAAAAAAAAAAAAAAAqcJ8rFvkzw5OCVaobD-xEQcKeBaHfuIXmjLpJOkZ_w/img.gif?credential=yqXZFxpELC7KVnFOS48ylbz2pIh7yKj8&expires=1764514799&allow_ip=&allow_referer=&signature=dHmjK4Rw1e0GjLOQmRoIPJGiKIM%3D"
+         alt="본문 2" />
 
+    <!-- ========================================
+         화살표 GIF (여기 URL 교체)
+         ======================================== -->
     <!-- 4) 화살표 GIF (PNG/GIF 교체 지점) -->
     <div class="arrow" aria-hidden="true">
       <!-- 아래 src에 GIF 경로 교체 -->
-      <img src="https://blog.kakaocdn.net/dna/cr77FX/dJMb99LvexN/AAAAAAAAAAAAAAAAAAAAAH0jbLXtr-KI2v6FaKE2S1WsRZ6-8oP7AnqkAv9TOu9d3hpGd0MvKCllqI3Eqe2KaUJoFWzN6w12ugZAp20s5l_jTBUfG9dfuT4iiHh1QyNm/img.gif?credential=yqXZFxpELC7KVnFOS48ylbz2pIh7yKj8&expires=1764514799&allow_ip=&allow_referer=&signature=IuIJ9fH9DzKfUZYPWyLD8L3nWw8%3D" alt="" />
-      <img src="https://blog.kakaocdn.net/dna/cr77FX/dJMb99LvexN/AAAAAAAAAAAAAAAAAAAAAH0jbLXtr-KI2v6FaKE2S1WsRZ6-8oP7AnqkAv9TOu9d3hpGd0MvKCllqI3Eqe2KaUJoFWzN6w12ugZAp20s5l_jTBUfG9dfuT4iiHh1QyNm/img.gif?credential=yqXZFxpELC7KVnFOS48ylbz2pIh7yKj8&expires=1764514799&allow_ip=&allow_referer=&signature=IuIJ9fH9DzKfUZYPWyLD8L3nWw8%3D" alt="" />
-      <img src="https://blog.kakaocdn.net/dna/cr77FX/dJMb99LvexN/AAAAAAAAAAAAAAAAAAAAAH0jbLXtr-KI2v6FaKE2S1WsRZ6-8oP7AnqkAv9TOu9d3hpGd0MvKCllqI3Eqe2KaUJoFWzN6w12ugZAp20s5l_jTBUfG9dfuT4iiHh1QyNm/img.gif?credential=yqXZFxpELC7KVnFOS48ylbz2pIh7yKj8&expires=1764514799&allow_ip=&allow_referer=&signature=IuIJ9fH9DzKfUZYPWyLD8L3nWw8%3D" alt="" />
+      <img src="https://blog.kakaocdn.net/dna/bUPcaP/dJMcafkI3K3/AAAAAAAAAAAAAAAAAAAAAHPTm8SFzVMaHn3n-lbMk4F5PrvZKlvUsv4jtD0pegCc/img.gif?credential=yqXZFxpELC7KVnFOS48ylbz2pIh7yKj8&expires=1764514799&allow_ip=&allow_referer=&signature=lG%2BmeBBaf6wURBuDe%2BoS57Uxy8o%3D" alt="" />
+      <img src="https://blog.kakaocdn.net/dna/bUPcaP/dJMcafkI3K3/AAAAAAAAAAAAAAAAAAAAAHPTm8SFzVMaHn3n-lbMk4F5PrvZKlvUsv4jtD0pegCc/img.gif?credential=yqXZFxpELC7KVnFOS48ylbz2pIh7yKj8&expires=1764514799&allow_ip=&allow_referer=&signature=lG%2BmeBBaf6wURBuDe%2BoS57Uxy8o%3D" alt="" />
+      <img src="https://blog.kakaocdn.net/dna/bUPcaP/dJMcafkI3K3/AAAAAAAAAAAAAAAAAAAAAHPTm8SFzVMaHn3n-lbMk4F5PrvZKlvUsv4jtD0pegCc/img.gif?credential=yqXZFxpELC7KVnFOS48ylbz2pIh7yKj8&expires=1764514799&allow_ip=&allow_referer=&signature=lG%2BmeBBaf6wURBuDe%2BoS57Uxy8o%3D" alt="" />
     </div>
 
-
-    <!-- 5) 외부 DB 폼 (마켓클럽 입력폼 삽입) -->
+    <!-- ========================================
+         입력폼 영역 (여기에 폼 코드 추가)
+         ======================================== -->
     <div class="form-wrap">
-      <iframe src='https://marketclub.cafe24.com/form_make/form.php?type=set&pt=siaj1112&it=740&rgb1=&rgb2=&rgb3=&rgb4=&rgb5=%231562CF&rgb6=&btn_name=%BC%B1%C2%F8%BC%F8+%C7%FD%C5%C3+%B9%DE%B1%E2&tracking_gubun=fasebook&tracking_code=686199457579048&tracking_label='
-              width="100%"
-              height="650px"
-              frameborder="0">
-      </iframe>
+      <!-- 여기에 원하는 입력폼 코드 넣으세요 -->
+      <iframe src='https://marketclub.cafe24.com/form_make/form867.php?type=set&pt=siaj1112&it=867&rgb1=&rgb2=&rgb3=&rgb4=&rgb5=%23FD0235&rgb6=&btn_name=%C0%CC%BA%A5%C6%AE+%BD%C5%C3%BB%C7%CF%B1%E2+%A1%E6&tracking_gubun=fasebook&tracking_code=686199457579048&tracking_label='  width='100%' height='650px' frameborder='0'></iframe>
+      
     </div>
+    
   </div>
 
-
-  <!-- 6) 고정 푸터 + 텍스트 내 타이머(단일) -->
+  <!-- 6) 고정 푸터 + 타이머 -->
   <div id="fixed-footer" role="contentinfo" aria-label="이벤트 카운트다운">
     <div class="inner">
       <span class="foot-msg">
@@ -242,12 +236,8 @@
     </div>
   </div>
 
-
 <script>
-  /* ===============================
-     1) 푸터 겹침 방지: padding-bottom 동기화
-     - 고정 푸터 높이를 측정해 body 하단 여백에 반영
-     =============================== */
+  /* 푸터 겹침 방지: padding-bottom 동기화 */
   (function syncFooterSpace(){
     function apply() {
       var f = document.getElementById('fixed-footer');
@@ -257,34 +247,24 @@
     }
     window.addEventListener('load', apply);
     window.addEventListener('resize', apply);
-    // 폰트 로딩/이미지 변경 등으로 레이아웃 변동 시 보정
     document.addEventListener('visibilitychange', function(){
       if(document.visibilityState === 'visible') apply();
     });
   })();
 
-
-  /* ===============================
-     2) 카운트다운: '빠른 초 감소' 유지
-     - 표시 시간은 3시간
-     - 실제 흐름은 speed배로 빨라짐 (요청: 이전처럼 더 빠른 초 감소)
-     - 정확도: Date.now() 기반, rAF 구동 [web:32][web:36][web:31]
-     =============================== */
+  /* 카운트다운: 초가 더 빨리 줄어들도록 speed 적용 */
   (function(){
     var H = document.getElementById('hh');
     var M = document.getElementById('mm');
     var S = document.getElementById('ss');
     if(!H || !M || !S) return;
 
-
     var displayDurationMs = 3 * 60 * 60 * 1000; /* 3시간 표시 */
-    var speed = 4; /* '초가 더 빨리' 줄도록 가속 배수 (필요 시 4→8 등으로 증가) */
-    var virtualTotal = displayDurationMs / speed; /* 실제 경과 기준치 */
+    var speed = 4; /* 가속 배수 */
+    var virtualTotal = displayDurationMs / speed;
     var t0 = Date.now();
 
-
     function pad(n){ return (n < 10 ? '0' : '') + n; }
-
 
     function render(msLeft){
       var sec = Math.max(0, Math.floor(msLeft / 1000));
@@ -296,22 +276,18 @@
       S.textContent = pad(s);
     }
 
-
     function tick(){
-      var elapsed = Date.now() - t0;          /* 실제 경과 */
-      var leftVirtual = Math.max(0, virtualTotal - elapsed); /* 가상 잔여 */
-      var leftDisplay = leftVirtual * speed;  /* 표시상의 잔여(빠르게 감소) */
+      var elapsed = Date.now() - t0;
+      var leftVirtual = Math.max(0, virtualTotal - elapsed);
+      var leftDisplay = leftVirtual * speed;
       render(leftDisplay);
       if(leftVirtual > 0) requestAnimationFrame(tick); else render(0);
     }
 
-
-    /* 초기 표시 */
     render(displayDurationMs);
     requestAnimationFrame(tick);
   })();
 </script>
-
 
 </body>
 </html>
