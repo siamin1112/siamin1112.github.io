@@ -31,38 +31,13 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #fd0235;
+    background: #30a9de;
     color: #fff;
     font-weight: 700;
     font-size: 16px;
     z-index: 9999;
     box-shadow: 0 2px 8px rgba(0,0,0,0.15);
     white-space: nowrap;
-  }
-
-  #fixed-header .badge {
-    margin-left: 10px;
-    background: #111;
-    color: #fff;
-    border-radius: 20px;
-    padding: 6px 13px;
-    font-size: 13px;
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-  }
-
-  /* 16 숫자만 깜빡임 */
-  .blink {
-    animation: blink 0.6s step-start infinite;
-  }
-  @keyframes blink {
-    50% { opacity: 0; }
-  }
-
-  /* 접근성: 모션 줄임 설정 시 애니메이션 비활성화 */
-  @media (prefers-reduced-motion: reduce) {
-    .blink { animation: none; }
   }
 
   /* 2) 컨테이너: 모바일 735px에 딱 맞춤 */
@@ -80,11 +55,6 @@
     height: auto;
     display: block;
     margin: 0 auto;
-  }
-
-  /* 본문 2 이미지만 위로 당기기 */
-  .content-image:nth-of-type(2) {
-    margin-top: -35px; /* 숫자 조정해서 원하는 만큼 올리기 */
   }
 
   /* 4) 화살표(GIF) */
@@ -115,7 +85,7 @@
     right: 0;
     bottom: 0;
     height: 55px;
-    background: #0f0f10;
+    background: #1e1c76;
     color: #fff;
     display: flex;
     align-items: center;
@@ -171,16 +141,28 @@
     .arrow img { width: 70px; height: 88px; }
     #fixed-footer { height: 45px; font-size: 16px; }
   }
+
+  /* 전체 텍스트 페이드 효과 */
+  #complete-message {
+    display: inline-block;
+  }
+
+  #complete-message.fade {
+    animation: fadeInOut 0.4s ease-in-out;
+  }
+
+  @keyframes fadeInOut {
+    0% { opacity: 1; }
+    50% { opacity: 0.2; }
+    100% { opacity: 1; }
+  }
+
 </style>
 </head>
 <body>
-
   <!-- 1) 고정 헤더 -->
   <div id="fixed-header">
-    탈모 무료 진단 이벤트!
-    <span class="badge">
-      선착순 : <span class="blink">16</span> / 20
-    </span>
+    <span id="complete-message"><span id="rotating-name">🌟 김</span>OO님 신청 완료되었습니다!</span>
   </div>
 
   <!-- 2) 본문 -->
@@ -190,7 +172,7 @@
          본문 1 이미지 (여기 URL 교체)
          ======================================== -->
     <img class="content-image"
-         src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdna%2FBMq9P%2FdJMcaacGX6t%2FAAAAAAAAAAAAAAAAAAAAAM2KgwvGrstm7sbX-BMwfR9sAtpxDyxxWnzFeVsgnkO8%2Fimg.png%3Fcredential%3DyqXZFxpELC7KVnFOS48ylbz2pIh7yKj8%26expires%3D1767193199%26allow_ip%3D%26allow_referer%3D%26signature%3DvuUTTLCgSiKCm1OtUHHFTb1nFiE%253D"
+         src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdna%2Fc413LH%2FdJMcabbCJdT%2FAAAAAAAAAAAAAAAAAAAAAJs-44yY_PypE5EEpYQ8bPld9UIwM8q-7UlBYQLZ0QZM%2Fimg.png%3Fcredential%3DyqXZFxpELC7KVnFOS48ylbz2pIh7yKj8%26expires%3D1767193199%26allow_ip%3D%26allow_referer%3D%26signature%3D2G5dtyx7Ld7IK8sySLgf8STTnnI%253D"
          alt="본문 1" />
 
     <!-- ========================================
@@ -208,9 +190,7 @@
          입력폼 영역 (여기에 폼 코드 추가)
          ======================================== -->
     <div class="form-wrap">
-      <!-- 여기에 원하는 입력폼 코드 넣으세요 -->
-      <iframe src='https://marketclub.cafe24.com/form_make/form867.php?type=set&pt=siaj1112&it=867&rgb1=&rgb2=&rgb3=&rgb4=&rgb5=%23FD0235&rgb6=&btn_name=10%C3%CA%B8%B8%BF%A1+%BC%B1%B9%B0%B9%DE%B1%E2+%26%23127873%3B&tracking_gubun=fasebook&tracking_code=686199457579048&tracking_label='  width='100%' height='650px' frameborder='0'></iframe>
-      
+      <iframe src='https://dbsense.kr/js/form/iframe.php?width=800&cid=p2h8tchejk&sid=p2h8&form=my2form101&ver=1&c1=0&c2=0&c3=0&c4=0&autoHeight=689&btn=선착순 지원하기' width='100%' height='689px' frameborder='0'></iframe><script> !function(f,b,e,v,n,t,s) {if(f.fbq)return;n=f.fbq=function(){n.callMethod? n.callMethod.apply(n,arguments):n.queue.push(arguments)}; if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0'; n.queue=[];t=b.createElement(e);t.async=!0; t.src=v;s=b.getElementsByTagName(e)[0]; s.parentNode.insertBefore(t,s)}(window,document,'script', 'https://connect.facebook.net/en_US/fbevents.js'); fbq('init', '686199457579048'); fbq('track', 'PageView'); </script> <noscript> <img height='1' width='1' style='display:none' src='https://www.facebook.com/tr?id=686199457579048&ev=PageView&noscript=1'/> </noscript><script>window.addEventListener('message', function(e) { if ( e.data.cmd == 'facebookConversion' ) { fbq('track', 'CompleteRegistration'); } } );</script>
     </div>
     
   </div>
@@ -219,7 +199,7 @@
   <div id="fixed-footer" role="contentinfo" aria-label="이벤트 카운트다운">
     <div class="inner">
       <span class="foot-msg">
-        이벤트 종료까지
+        선착순 (18 / 25)
         <span class="tseg" id="hh">03</span>
         <span class="tsep">:</span>
         <span class="tseg" id="mm">00</span>
@@ -230,6 +210,32 @@
   </div>
 
 <script>
+  /* 성씨 로테이션 */
+  (function rotateSurname() {
+    var surnames = ['김', '최', '정', '고', '한', '유', '박', '권', '신', '강', '남', '신', '조'];
+    var nameEl = document.getElementById('rotating-name');
+    var messageEl = document.getElementById('complete-message');
+    if (!nameEl || !messageEl) return;
+    
+    var index = 0;
+    setInterval(function() {
+      // 페이드 효과 시작
+      messageEl.classList.add('fade');
+      
+      // 페이드 중간에 텍스트 변경
+      setTimeout(function() {
+        index = (index + 1) % surnames.length;
+        nameEl.textContent = '🌟 ' + surnames[index]; // 이모티콘 + 공백 + 성씨
+      }, 200);
+      
+      // 애니메이션 클래스 제거
+      setTimeout(function() {
+        messageEl.classList.remove('fade');
+      }, 400);
+      
+    }, 2500); // 1.5초마다 변경
+  })();
+
   /* 푸터 겹침 방지: padding-bottom 동기화 */
   (function syncFooterSpace(){
     function apply() {
